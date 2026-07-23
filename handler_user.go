@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"time"
 	"context"
+	"slices"
 
 	"github.com/google/uuid"
 
@@ -56,11 +57,33 @@ func handlerLogin(s *state, cmd command) error {
 	return nil
 }
 
+func handlerUsers(s *state, cmd command) error {
+	if len(cmd.Args) != 0 {
+		return fmt.Errorf("usage: %s", cmd.Name)
+	}
+
+	names, err := s.db.GetUsers(context.Background())
+	if err != nil {
+		return fmt.Errorf("Error while fetching users: %v", err)
+	}
+
+	fmt.Println("Registered users:")
+	currentNameIdx := slices.Index(names, s.cfg.CurrentUserName)
+	for i, n := range names {
+		pstring := " * " + n
+		if i == currentNameIdx {
+			pstring += " (current)"
+		}
+		fmt.Println(pstring)
+	}
+	return nil
+}
+
 func handlerReset(s *state, cmd command) error {
 	if len(cmd.Args) != 0 {
 		return fmt.Errorf("usage: %s", cmd.Name)
 	}
-	
+
 	err := s.db.ClearUsers(context.Background())
 	if err != nil {
 		return fmt.Errorf("Error while resetting users table: %v", err)
