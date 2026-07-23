@@ -23,9 +23,12 @@ func handlerFeeds(s *state, cmd command) error {
 	fmt.Println("Saved RSS feeds:")
 	for i, f := range feeds {
 		fmt.Printf("-- %v ---------------\n", i+1)
-		fmt.Printf("\tfeed name : %v\n", f.Name)
-		fmt.Printf("\tfeed url  : %v\n", f.Url)
-		fmt.Printf("\tsaved by  : %v\n", f.User)
+		fmt.Printf(" * feed name:\t %v\n", f.Name)
+		fmt.Printf(" * feed url:\t %v\n", f.Url)
+		fmt.Printf(" * saved by:\t %v\n", f.User)
 	}
+	fmt.Println()
+	fmt.Println("=====================================")
+
 	return nil
 }

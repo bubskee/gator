@@ -41,9 +41,11 @@ func handlerFollow(s *state, cmd command) error {
 		return fmt.Errorf("error while creating feedfollow: %w", err)
 	}
 
-	fmt.Println("Feed successfully followed!")
-	fmt.Printf("\tfeed: %v\n", feedFollow.FeedName)
-	fmt.Printf("\tuser: %v\n", feedFollow.UserName)
+	fmt.Println("Feed successfully followed:")
+	fmt.Printf(" * feed:\t %v\n", feedFollow.FeedName)
+	fmt.Printf(" * user:\t %v\n", feedFollow.UserName)
+	fmt.Println()
+	fmt.Println("=====================================")
 
 	return nil
 }

@@ -32,8 +32,10 @@ func handlerRegister(s *state, cmd command) error {
 		return fmt.Errorf("couldn't set current user: %w", err)
 	}
 
-	fmt.Println("User registered successfully!")
+	fmt.Println("User registered successfully:")
 	printUser(user)
+	fmt.Println()
+	fmt.Println("=====================================")
 	return nil
 }
 
@@ -43,7 +45,7 @@ func handlerLogin(s *state, cmd command) error {
 	}
 	name := cmd.Args[0]
 
-	_, err := s.db.GetUser(context.Background(), name)
+	user, err := s.db.GetUser(context.Background(), name)
 	if err != nil {
 		return fmt.Errorf("couldn't find user with name: %s \nerror: %w", name, err)
 	}
@@ -53,7 +55,10 @@ func handlerLogin(s *state, cmd command) error {
 		return fmt.Errorf("couldn't set current user: %w", err)
 	}
 
-	fmt.Println("User switched successfully!")
+	fmt.Println("User switched successfully. Current User is:")
+	printUser(user)
+	fmt.Println()
+	fmt.Println("=====================================")
 	return nil
 }
 
@@ -76,6 +81,8 @@ func handlerUsers(s *state, cmd command) error {
 		}
 		fmt.Println(pstring)
 	}
+	fmt.Println()
+	fmt.Println("=====================================")
 	return nil
 }
 
@@ -94,7 +101,6 @@ func handlerReset(s *state, cmd command) error {
 }
 
 func printUser(user database.User) {
-	fmt.Println(" -- User Data: ")
-	fmt.Printf("        -- Name: %s\n", user.Name)
-	fmt.Printf("        -- UUID: %v\n", user.ID)
+	fmt.Printf(" * UserName:\t %s\n", user.Name)
+	fmt.Printf(" * UserID:\t %v\n", user.ID)
 }
