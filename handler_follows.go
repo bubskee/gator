@@ -49,3 +49,38 @@ func handlerFollow(s *state, cmd command) error {
 
 	return nil
 }
+
+func handlerFollowing(s *state, cmd command) error {
+	if len(cmd.Args) != 0 {
+		return fmt.Errorf("usage: %s", cmd.Name)
+	}
+
+	user_name := s.cfg.CurrentUserName
+	user, err := s.db.GetUser(context.Background(), user_name)
+	if err != nil {
+		return fmt.Errorf("error while fetching user: %w", err)
+	}
+
+	follows, err := s.db.GetFeedFollowsForUser(context.Background(), user.ID)
+	if err != nil {
+		return fmt.Errorf("error while fetching follows: %w", err)
+	}
+
+	numFollows := len(follows)
+	if numFollows < 1 {
+		fmt.Printf("User: %v\n", user.Name)
+		fmt.Println("Has no followed RSS feeds!")
+		return nil
+	}
+
+	fmt.Printf("User: %v\n", user.Name)
+	fmt.Printf("Found %v followed RSS feeds:\n", numFollows)
+	for i, f := range follows {
+		fmt.Printf("-- %v ---------------\n", i+1)
+		fmt.Printf(" * feed name:\t %v\n", f.FeedName)
+	}
+	fmt.Println()
+	fmt.Println("=====================================")
+
+	return nil
+}
