@@ -10,23 +10,17 @@ import (
 	"github.com/bubskee/gator/internal/database"
 )
 
-func handlerFollow(s *state, cmd command) error {
+func handlerFollow(s *state, cmd command, user database.User) error {
 	if len(cmd.Args) != 1 {
 		return fmt.Errorf("usage: %s <url>", cmd.Name)
 	}
 
 	url := cmd.Args[0]
 	tStamp := time.Now().UTC()
-	user_name := s.cfg.CurrentUserName
 
 	feed, err := s.db.GetFeedByUrl(context.Background(), url)
 	if err != nil {
 		return fmt.Errorf("error while fetching feed: %w", err)
-	}
-
-	user, err := s.db.GetUser(context.Background(), user_name)
-	if err != nil {
-		return fmt.Errorf("error while fetching user: %w", err)
 	}
 
 	feedFollow, err := s.db.CreateFeedFollow(
@@ -50,15 +44,9 @@ func handlerFollow(s *state, cmd command) error {
 	return nil
 }
 
-func handlerFollowing(s *state, cmd command) error {
+func handlerFollowing(s *state, cmd command, user database.User) error {
 	if len(cmd.Args) != 0 {
 		return fmt.Errorf("usage: %s", cmd.Name)
-	}
-
-	user_name := s.cfg.CurrentUserName
-	user, err := s.db.GetUser(context.Background(), user_name)
-	if err != nil {
-		return fmt.Errorf("error while fetching user: %w", err)
 	}
 
 	follows, err := s.db.GetFeedFollowsForUser(context.Background(), user.ID)
