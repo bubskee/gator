@@ -14,7 +14,7 @@ Before you install Gator, make sure you have these tools on your computer:
 1. Clone the repository:
 
 ```bash
-git clone https://github.com
+git clone https://github.com/bubskee/gator
 cd gator
 ```
 
@@ -47,13 +47,13 @@ gator register examplename
 gator addfeed h4X0rn00z https://news.ycombinator.com/rss
 
 # tell gator check for new content every 10 seconds
-gator agg 10
+gator agg 10s
 
 # kill the process by holding ctrl-c
 ## TODO: make a better UX flow. one that doesn't require the user killing a process.
 
 # finally, browse your content
-gator browse 10s
+gator browse 10
 
 # bask in a sense of pride an accomplishment. well done, you!
 
