@@ -53,7 +53,7 @@ gator agg 10
 ## TODO: make a better UX flow. one that doesn't require the user killing a process.
 
 # finally, browse your content
-gator browse 10
+gator browse 10s
 
 # bask in a sense of pride an accomplishment. well done, you!
 
@@ -67,11 +67,11 @@ gator reset
 You can call `gator` with any of the following options:
 
 ```bash
-gator register <username> # register a user
+gator register <username> # register a user, logged in automatically
 gator login <username> # switch current user
 gator reset # clears all user and feed data
 gator users # lists all registered users
-gator agg <time_between_reqs> # gator will check for new RSS content every `time` seconds
+gator agg <time_between_reqs> # gator will loop, checking for new RSS content every <time>
 gator feeds # list all saved RSS feeds
 gator addfeed <name> <url> # add a feed, the current user will follow automatically
 gator follow <url> # follow a feed that another user added
